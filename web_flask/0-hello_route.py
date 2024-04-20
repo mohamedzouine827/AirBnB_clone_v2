@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""FLASK FRAMEWORK"""
 from flask import Flask
 
 app = Flask(__name__)
@@ -6,6 +7,7 @@ app = Flask(__name__)
 
 @app.route('/', strict_slashes=False)
 def start():
+    """Return Hello world"""
     return f"Hello HBNB!"
 
 
