@@ -1,27 +1,27 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
+
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from os import getenv
+import os
 
 
 class State(BaseModel, Base):
     """ State class """
-    __tablename__ = 'states'
-    if getenv('HBNB_TYPE_STORAGE') == "db":
+    __tablename__ = "states"
+    if os.getenv("HBNB_TYPE_STORAGE") == "db":
         name = Column(String(128), nullable=False)
-        cities = relationship('City',  backref='state',
-                              cascade="all, delete-orphan")
+
+        cities = relationship("City",
+                              backref="state",
+                              cascade="all, delete-orphan"
+                              )
     else:
         name = ""
 
         @property
         def cities(self):
-            from models.__init__ import storage
-            list_cities = []
-            dic = storage.all(City)
-            for key, obj in dic.items():
-                if obj.state_id == self.id:
-                    list_cities.append(obj)
-            return list_cities
+            from models import storage
+            file_cities = storage.all(storage.classes['City']).values()
+            return [city for city in file_cities if city.state_id == self.id]
