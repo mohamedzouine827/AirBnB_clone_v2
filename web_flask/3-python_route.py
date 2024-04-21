@@ -22,7 +22,7 @@ def c(text):
     """show the script"""
     return f'C {text.replace("_", " ")}'
 
-
+@app.route('/python/', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def py(text):
     """show the script"""
